@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var message = ""
-    @State private var messageNumber = 0
     @State private var imageName = ""
-    @State private var imageNumber = 0
+    @State private var lastMessageNumber = -1
+    @State private var lastImageNumber = -1
+    
+    let numberOfImages = 10 // images labeled image0 - image9
     
     var body: some View {
         
@@ -42,9 +44,19 @@ struct ContentView: View {
                                 "You Make Me Smile!",
                                 "When the Genius Bar Needs Help, They Call You!!"]
                 
-                message = messages[Int.random(in: 0..<messages.count)]
+                var messageNumber: Int
+                repeat {
+                    messageNumber = Int.random(in: 0..<messages.count)
+                } while messageNumber == lastMessageNumber
+                lastMessageNumber = messageNumber
+                message = messages[messageNumber]
                 
-                imageName = "image\(Int.random(in: 0...9))"
+                var imageNumber: Int
+                repeat {
+                    imageNumber = Int.random(in: 0..<numberOfImages)
+                } while imageNumber == lastImageNumber
+                imageName = "image\(imageNumber)"
+                lastImageNumber = imageNumber
 
             }
             .buttonStyle(.borderedProminent)
